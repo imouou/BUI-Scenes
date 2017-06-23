@@ -1,0 +1,230 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>通用的登录页面结构</title>
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="../css/bui.css" /> 
+<script src="../js/zepto.js"></script>
+<script src="../js/plugins/fastclick.js"></script>
+<script src="../js/bui.js"></script>
+<script src="../js/app/_config.js"></script>
+<style type="text/css">
+    .login-page main{
+    	background-color: #ffffff;
+    }
+    .logo{
+    	height: 2rem;
+    	margin: .5rem auto ;
+        text-align: center;
+    }
+    .logo img{
+        height: 100%;
+    }
+    .login-form {
+        padding-left: .3rem;
+        padding-right: .3rem;
+    }
+    .login-form .bui-list{
+    	border-top: none;
+        margin-bottom: .3rem;
+    }
+    .login-form .bui-btn{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .login-form .bui-label{
+    	width: 0.5rem;
+    }
+    .login-form .icon-face,
+    .login-form .icon-lock{
+    	font-size: 0.36rem;
+    }
+    .login-form .bui-input {
+        height: .6rem;
+    }
+    .login-form .primary{
+    	background-color: #52a4ff;
+    	color: #ffffff;
+        font-size: 0.26rem;
+        -webkit-border-radius: 0.06rem;
+        border-radius: 0.06rem;
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+        margin-bottom: .2rem;
+    }
+    .login-form .bui-btn-text{
+    	text-align: center;
+        color: #666666;
+        font-size: 0.2rem;
+    }
+    .copyright{
+    	font-size: 0.17rem;
+    	color: #999999;
+    	width: 100%;
+    	text-align: center;
+        background-color: #ffffff;
+        padding-bottom: 0.25rem;
+    }
+
+
+</style>
+<script>
+    var pageview = {};
+	bui.ready(function () {
+
+        // 页面初始化
+        pageview.init();
+	})
+
+    pageview.bind = function () {
+        
+        /*初始化页面的链接跳转*/
+        bui.btn({ id:"#page" , handle:".bui-btn,.bui-btn-text"}).load();
+
+        // 监听用户名输入事件
+        onInput({
+            id: ".user-input",
+            callback: function () {
+                // 点击删除按钮清空
+                $(".user-input input").val('');
+                $(this).hide();
+            }
+        })
+
+        // 监听密码输入事件
+        onInput({
+            id: ".password-input",
+            callback: function () {
+                // 点击删除按钮清空
+                $("#password").val('');
+                $(this).hide();
+            }
+        })
+    }
+
+    pageview.init = function () {
+
+        // 绑定事件
+        this.bind();
+    }
+
+    /**
+     * [onInput 监听input事件]
+     * @param  {[object]} opt [description]
+     * @param  {[string]} opt.id [事件的父级]
+     * @param  {[string]} opt.target [目标是input]
+     * @param  {[string]} opt.target [目标的input]
+     * @example  
+     * 
+     * html: 
+      
+        <div class="bui-input password-input">
+            <input id="password" type="password" placeholder="密码">
+        </div>
+
+       js: 
+
+        onInput({
+            id: ".password-input",
+            callback: function () {
+                // 点击删除按钮清空
+                $("#password").val('');
+                $(this).hide();
+            }
+        })
+     * 
+     * @return {[type]}     [description]
+     */
+    function onInput(opt) {
+        var opt = opt || {};
+            opt.id = opt.id || "";
+            opt.target = opt.target || "input";
+            opt.event = opt.event || "keyup";
+            opt.icon = opt.icon || "icon-remove";
+            opt.onInput = opt.onInput || function () {};
+            opt.callback = opt.callback || function () {};
+
+        if( opt.id == "" || opt.id === null ){
+            return;
+        }
+        var $id = $(opt.id),
+            $target = $id.find(opt.target);
+            iconClass = '.'+opt.icon;
+
+        // 输入框监听延迟执行
+        $target.on(opt.event,bui.unit.debounce(function () {
+            var val = $(this).val(),
+                $btnRemove = $id.find(iconClass);
+            if(val.length > 0){
+                if( $btnRemove && $btnRemove.length ){
+                    $btnRemove.css("display","block");
+                }else{
+                    $id.append('<i class="'+opt.icon+'"></i>');
+                    $btnRemove = $target.find(iconClass);
+                }
+            }else{
+                $btnRemove && $btnRemove.css("display","none");
+            }
+
+            opt.onInput && opt.onInput.call(this);
+        },100))
+
+        // 图标点击事件
+        $id.on("click",iconClass,function () {
+            opt.callback && opt.callback.call(this);
+        })
+    }
+
+</script>
+
+</head>
+<body>
+<div id="page" class="bui-page login-page">
+	<header id="bar" class="bui-bar">
+		<div class="bui-bar">
+			<div class="bui-bar-left">
+				<a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i>
+			    </a>
+			</div>
+			<div class="bui-bar-main">登录</div>
+			<div class="bui-bar-right">
+			</div>
+		</div>
+	</header>
+	<main>
+        <div class="logo"><img src="../images/applogo.png" alt=""></div>
+        <div class="login-form">
+            <ul class="bui-list">
+    			<li class="bui-btn bui-box clearactive">
+    				<label class="bui-label" for="user"><i class="icon-face"></i></label>
+    				<div class="span1">
+    					<div class="bui-input user-input">
+    						<input id="user" type="text" placeholder="用户名">
+    					</div>
+    				</div>
+    			</li>
+    			<li class="bui-btn bui-box clearactive">
+    				<label class="bui-label" for="password"><i class="icon-lock"></i></label>
+    				<div class="span1">
+    					<div class="bui-input password-input">
+    						<input id="password" type="password" placeholder="密码">
+    					</div>
+    				</div>
+    			</li>
+    		</ul>
+    		<div class="bui-btn round primary">登录</div>
+            <div class="bui-btn-text" href="Register.html">注册</div>
+    		<div class="bui-btn-text">忘记密码</div>
+        </div>
+	</main>
+    
+    <footer>
+        <div class="copyright">中国移动版权所有</div>
+    </footer>
+
+</div>
+	
+</body>
+</html>

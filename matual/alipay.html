@@ -1,0 +1,416 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title>BUI</title>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="../css/bui.css" />
+    <!-- 依赖库 手机调试的js引用顺序如下 -->
+    <script src="../js/zepto.js"></script>
+    <script src="../js/cordova.js"></script>
+    <script src="../js/bingotouch.js"></script>
+    <script src="../js/plugins/fastclick.js"></script>
+    <!-- BUI库 -->
+    <script src="../js/bui.js?id=191"></script>
+    <script src="../js/app/_config.js"></script>
+    <script>
+
+    var pageview = {},  //页面模块
+        $main,          //中间内容
+        $topbar,        //顶部导航条
+        uiSwipe,        //滑动控件
+        uiPullRefreshs; //下拉刷新控件
+
+        bui.ready(function (argument) {
+
+            // 页面控件初始化
+            pageview.init();
+            // 页面事件绑定
+            pageview.bind();
+
+        })   
+        
+        pageview.init = function () {
+            // 初始化滑动控件
+            uiSwipe = bui.swipe({
+                id: "#uiSwipe",
+                handle: ".bui-page",
+                movingDistance : 210,
+                zoom: true,
+                // handle初始化位置,配合样式使用
+                initDistance: 68,
+                // 不管条件符合不符合都触发open或close事件
+                alwaysTrigger: true,
+                direction: "y",
+            });
+
+            // 初始化刷新控件
+            uiPullRefreshs = bui.pullrefresh({
+                id: "#uiPullrefresh",
+                onRefresh: onRefresh
+            });
+            
+            //下拉的时候刷新数据
+            function onRefresh () {
+              // 执行事件以后需要执行返回函数
+                var ui = this;
+                ui.reverse();
+            };
+            
+        }
+
+        pageview.bind = function () {
+            
+            $main = $("#main");
+            $topbar = $(".topbar");
+
+            // 滑动过程中控制顶部横条的透明度
+            uiSwipe.on("touchmove",function (e,touch) {
+                // 如果状态是打开
+                if( uiSwipe.isActive() ){
+
+                    var opAcity = (touch.y1-touch.y2)/100,
+                        openAcity = opAcity > 1 ? 1 : opAcity;
+
+                    $topbar.css({
+                        "opacity": openAcity,
+                        "z-index": 20
+                    })
+                }else if( !uiSwipe.isActive() ){
+
+                    var clAcity = 1-(touch.y2-touch.y1)/100,
+                        closeAcity = clAcity < 0 ? 0 : clAcity;
+
+                    $topbar.css({
+                        "opacity": closeAcity,
+                        "z-index": 20
+                    })
+                }
+            });
+
+            // 监听打开状态
+            uiSwipe.on("open",function (e,touch) {
+
+                // 打开状态时,不能滚动,也不能下拉刷新
+                $main.scrollTop() < 5 && uiPullRefreshs.unlock();
+                $main.css("overflow","hidden");
+
+                // 打开状态的顶部导航条,透明度为0,并且在swipedown后面
+                $topbar.css({"opacity": 0,"z-index": 10})
+
+            })
+
+            // 监听关闭状态
+            uiSwipe.on("close",function () {
+
+                // 关闭状态时,可以下拉刷新,并且可以滚动
+                uiPullRefreshs.lock();
+
+                // 计算滚动内容的高度
+                var mainHeight = $(window).height() - $topbar.height();
+                $main.height(mainHeight).css("overflow","auto");
+
+                // 去掉下拉刷新以后的transition,会导致滚动的时候看到背景.
+                $(".bui-scroll-main").css("transition","none");
+
+                // 顶部导航条在上面,并且透明度为1
+                $topbar.css({ "opacity": 1, "z-index": 20 });
+            })
+
+            // 默认执行打开操作,并且不需要动画感知
+            uiSwipe.open({
+                target: "swipedown",
+                transition: "none"
+            });
+
+            // 监听滚动结束后执行事件
+            $main.on("scroll",bui.unit.debounce(function (e) {
+                
+                // 滚动条到顶部时,可以触发下滑控件
+                if(e.target.scrollTop < 5 ){
+                    uiSwipe.unlock();
+                }
+                // 大于5时,不做事情
+                if(e.target.scrollTop > 5 ){
+                    uiSwipe.lock();
+                }
+            },50))
+
+        }
+    </script>
+
+    <style>
+        body {
+            background: #fff;
+
+        }
+        .topbar,
+        .bui-searchbar {
+            background: #0072c6;
+        }
+        .topbar .bui-btn {
+            background: #0072c6;
+            color: #fff;
+            border:0;
+        }
+        .topbar .bui-btn i{
+            color: #fff;
+        }
+
+        .navicon {
+            background: #0072c6;
+        }
+        .navicon .bui-btn {
+            padding-top: .2rem;
+            padding-bottom: .2rem;
+            background: #0072c6;
+            color: #fff;
+            border: 0;
+        }
+        .navicon .bui-btn i{
+            font-size: .6rem;
+            width: .6rem;
+            height: .6rem;
+            line-height: .6rem;
+            margin-bottom: .2rem;
+            color: #fff;
+        }
+        
+        /*取消pullfresh的滚动条*/
+        #uiPullrefresh {
+            height:auto !important;
+            overflow: hidden;
+
+        }
+        #uiPullrefresh .bui-list{
+            border-top: 0;
+        }
+
+        .topbar {
+            opacity:0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .bui-page {
+            /* 参数 initDistance:68; */
+            -webkit-transform: translate(0,.68rem);
+            transform: translate(0,.68rem);
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+    <ul class="bui-nav">
+        <li class="bui-btn bui-box-vertical">
+            <i class="icon-">&#xe611;</i>
+            <div class="span1">扫一扫</div>
+        </li>
+        <li class="bui-btn bui-box-vertical">
+            <i class="icon-">&#xe657;</i>
+            <div class="span1">付款</div>
+        </li>
+        <li class="bui-btn bui-box-vertical">
+            <i class="icon-">&#xe68c;</i>
+            <div class="span1">卡券</div>
+        </li>
+        <li class="bui-btn bui-box-vertical">
+            <i class="icon-">&#xe602;</i>
+            <div class="span1">到位</div>
+        </li>
+    </ul>
+</div>
+<div id="uiSwipe" class="wrap">
+    
+    <!-- 侧滑菜单 -->
+    <div class="swipedown">
+        <div id="searchbar1">
+            <div class="bui-searchbar">
+                <div class="span1">
+                    <div class="bui-input">
+                        <i class="icon-search"></i>
+                        <input id="search" type="search" value placeholder="云搜索"
+                               oninput="indexFucs.input(this.value)">
+                        <i id="remove" class="icon-remove" style="display: none;" onclick="remove"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="bui-nav navicon">
+            <li class="bui-btn bui-box-vertical">
+                <i class="icon-">&#xe611;</i>
+                <div class="span1">扫一扫</div>
+            </li>
+            <li class="bui-btn bui-box-vertical">
+                <i class="icon-">&#xe657;</i>
+                <div class="span1">付款</div>
+            </li>
+            <li class="bui-btn bui-box-vertical">
+                <i class="icon-">&#xe68c;</i>
+                <div class="span1">卡券</div>
+            </li>
+            <li class="bui-btn bui-box-vertical">
+                <i class="icon-">&#xe602;</i>
+                <div class="span1">到位</div>
+            </li>
+        </ul>
+    </div>
+    <div id="page" class="bui-page">
+        <main id="main">
+            <ul class="bui-nav bui-fluid">
+                <li class="bui-btn span3 bui-box-vertical">
+                    <i class="icon-">&#xe606;</i>
+                    <div class="span1">违法查询</div>
+                </li>
+                <li class="bui-btn span3 bui-box-vertical">
+                    <i class="icon-">&#xe68c;</i>
+                    <div class="span1">审批查询</div>
+                </li>
+                <li class="bui-btn span3 bui-box-vertical">
+                    <i class="icon-">&#xe62d;</i>
+                    <div class="span1">办证查询</div>
+                </li>
+                <li class="bui-btn span3 bui-box-vertical">
+                    <i class="icon-">&#xe63a;</i>
+                    <div class="span1">身份核查</div>
+                </li>
+                <li class="bui-btn span3 bui-box-vertical">
+                    <i class="icon-">&#xe611;</i>
+                    <div class="span1">社区警务</div>
+                </li>
+                <li class="bui-btn span3 bui-box-vertical">
+                    <i class="icon-">&#xe657;</i>
+                    <div class="span1">网上返赃</div>
+                </li>
+                <li class="bui-btn span3 bui-box-vertical">
+                    <i class="icon-">&#xe68c;</i>
+                    <div class="span1">公安要闻</div>
+                </li>
+                <li class="bui-btn span3 bui-box-vertical">
+                    <i class="icon-">&#xe602;</i>
+                    <div class="span1">全部</div>
+                </li>
+            </ul>
+            <div id="uiPullrefresh" class="bui-scroll" >
+                <div class="bui-scroll-head"></div>
+                <div class="bui-scroll-main">
+                    
+                    <!-- 这里是滚动的内容区,如果不是ul,则需要修改对应的参数 -->
+                    <ul class="bui-list">
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li>fdsafda</li>
+                        <li style="background:red;">fdsafda</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+        
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="author" content="颜家超"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <title>动态</title>
+    <link rel="stylesheet" href="../css/bui.css"/>
+
+    <style>
+        .status-lists .status-pic{
+            width:.64rem;
+            height:.64rem;
+        }
+        .status-lists>.bui-box{
+            padding-left:.15rem;
+            padding-right:.15rem;
+            padding-top:.15rem;
+            margin-bottom:.1rem;
+            -webkit-box-align:start;
+        }
+        .status-lists>.bui-box:last-child{
+            border-bottom:none;
+        }
+        .status-lists .status-title{
+            line-height: 1.2;
+            font-size:.24rem;
+            color:#0072c6;
+        }
+        .status-lists .wrap-content{
+
+            font-size:.18rem;
+        }
+        /*为文字时的css*/
+        .status-lists .wrap-content .bui-btn{
+            margin-bottom:.12rem;
+            padding:.06rem;
+            border:none;
+            background-color:#f1f1f1;
+        }
+        /***为其他时的css**/
+        .status-lists .wrap-content .bui-fluid{
+            margin-bottom:.1rem;
+        }
+        .status-lists .wrap-content .data-content{
+            width:1.3rem;
+            height:1.3rem;
+            line-height:1.3rem;
+            text-align:center;
+            background-color:#ccc;
+        }
+        .status-lists .wrap-content .data-content i{
+            font-size:.4rem;
+        }
+        .status-lists .wrap-content .icon{
+            width:.64rem;
+            height:.64rem;
+            margin-right:.08rem;
+
+        }
+        .status-lists .wrap-content .icon img{
+            -webkit-border-radius: .05rem;
+            -moz-border-radius: .05rem;
+            border-radius: .05rem;
+        }
+        .status-lists .span1 .details-content{
+            margin-bottom:.2rem;
+        }
+        .status-lists .wrap-content .sub-content{
+            line-height: 1.3;
+        }
+        .status-lists .status-time{
+            font-size:.18rem;
+        }
+        .status-lists .status-time .data-time{
+            color:#8b8b8b;
+            padding-right:.2rem;
+        }
+        .status-lists .status-time .data-remove{
+            color:#67799f;
+        }
+        .status-lists .status-time .bui-right{
+            height:.24rem;
+        }
+        .status-lists .status-panel{
+            position:relative;
+            margin-top:.15rem;
+            border:none;
+            background-color:#f1f1f1;
+        }
+        .status-lists .status-panel .arrow-up{
+            position:absolute;
+            top:-0.22rem;
+            left:.2rem;
+            display:inline-block;
+            width:0;
+            height:0;
+            border-width:.12rem .12rem;
+            border-style: solid;
+            border-color:transparent;
+            border-bottom-color:#f1f1f1;
+        }
+        .status-lists .status-panel li.bui-btn{
+            -webkit-box-align:start;
+            background-color:#f1f1f1;
+        }
+        .status-lists .status-panel .bui-panel-head{
+            padding-right: .1rem;
+            padding-left:.1rem;
+            color:#879cc6;
+            font-size:.18rem;
+            border-bottom:1px solid #dddddd;
+        }
+        .status-lists .status-panel .bui-panel-head i{
+            margin-right:.1rem;
+
+        }
+        .status-panel .status-lists-ul .username{
+            margin-right:.1rem;
+            color:#879cc6;
+            font-size:.18rem;
+        }
+        .status-panel .status-lists-ul .data-content{
+            font-size:.18rem;
+            color:#5b5b5b;
+        }
+        .publish-mark{
+            position:fixed;
+            right:.2rem;
+            bottom:.9rem;
+            width:.6rem;
+            height:.6rem;
+            line-height:.6rem;
+            text-align:center;
+            background-color:#26d76d;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+        .publish-mark i{
+            font-size:.36rem;
+            color:#fff;
+        }
+        /*尾部*/
+        .status-foot-nav{
+            border-top:1px solid #cccccc;
+        }
+        .status-foot-nav li{
+            color:#a2a3a4;
+            border:none;
+        }
+        .status-foot-nav li.active{
+            color:#0072c6;
+        }
+    </style>
+    <script src="../js/zepto.js"></script>
+    <script src="../js/plugins/fastclick.js"></script>
+    <script src="../js/bui.js"></script>
+    <script src="../js/app/_config.js"></script>
+    <script>
+
+        var pageview = {};
+
+        bui.ready(function () {
+            
+            // 执行初始化
+            pageview.init();
+        })
+
+        pageview.bind = function () {
+
+            //初始化页面的链接跳转
+            bui.btn({id: "#page", handle: ".bui-btn"}).load();
+
+        }
+        pageview.init = function () {
+
+            //下拉菜单 在顶部中间
+            var barMain = bui.dropdown({
+                id: "#barMain",
+                showArrow: true,
+                relative: false
+            })
+            // 下拉菜单有遮罩的情况
+            var uiMask = bui.mask({
+                zIndex:9
+            });
+
+            // 通过监听事件绑定
+            barMain.on("show",function () {
+                uiMask.show();
+            })
+            barMain.on("hide",function () {
+                uiMask.hide();
+            })
+
+            this.bind();
+        }
+    </script>
+</head>
+<body>
+<div class="bui-page add-background" id="page">
+    <header class="bui-bar">
+        <div class="bui-bar-left add-bar-width">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">
+            <!-- 不修改文本值 -->
+            <div id="barMain" class="bui-dropdown bui-arrow-center">
+                <div class="bui-btn">
+                    <span class="span1">动态</span>
+                    <i class="icon-dropdown"></i>
+                </div>
+                <ul class="bui-list round">
+                    <li class="bui-btn" value="11">
+                        动态
+                    </li>
+                    <li class="bui-btn" value="22">
+                        新闻
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="bui-bar-right">
+        </div>
+    </header>
+    <main id="main">
+        <ul class="bui-list status-lists">
+            <li class="bui-btn bui-box">
+                <div class="icon status-pic">
+                    <img src="../images/applogo.png" alt=""/>
+                </div>
+                <div class="span1">
+                    <h3 class="item-title status-title">风之神</h3>
+                    <p class="details-content">分享投票结果:不对外开放</p>
+                    <div class="wrap-content">
+                        <!--类型为文字所用的盒子-->
+                        <div class="bui-btn bui-box ">
+                            <div class="icon">
+                                <img src="../images/applogo.png" alt=""/>
+                            </div>
+                            <div class="span1 sub-content">
+                                分享投票结果:不对外开放
+                                分享投票结果:不对外开放
+                                分享投票结果:不对
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bui-box status-time">
+                        <div class="span1">
+                            <span class="data-time">2015-12-12 15:10</span> <span class="data-remove">删除</span>
+                        </div>
+                            <span class="bui-right">
+                                <i class="icon-info"></i>
+                            </span>
+                    </div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box">
+                <div class="icon status-pic">
+                    <img src="../images/applogo.png" alt=""/>
+                </div>
+                <div class="span1">
+                    <h3 class="item-title status-title">张珊珊</h3>
+                    <p class="details-content">又阴天阴天</p>
+                    <div class="wrap-content">
+                        <ul class="bui-fluid">
+                            <li class="span4">
+                                <div class="data-content">
+                                    <i class="icon-camera"></i>
+                                </div>
+                            </li>
+                            <li class="span4">
+                                <div class="data-content">
+                                    <i class="icon-camera"></i>
+                                </div>
+                            </li>
+                            <li class="span4">
+                                <div class="data-content">
+                                    <i class="icon-camera"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bui-box status-time">
+                        <div class="span1">
+                            <span class="data-time">2015-12-12 15:10</span> <span class="data-remove">删除</span>
+                        </div>
+                        <span class="bui-right">
+                            <i class="icon-info"></i>
+                        </span>
+                    </div>
+                    <div class="bui-panel status-panel">
+                        <i class="arrow-up"></i>
+                        <div class="bui-box bui-panel-head">
+                            <i class="icon-eye"></i>
+                            <div class="span1">
+                                <span>百芳芳</span>
+                            </div>
+                        </div>
+                        <div class="bui-panel-main">
+                            <ul class="bui-list status-lists-ul">
+                                <li class="bui-btn bui-box">
+                                    <span class="username">王芳芳:</span>
+                                    <div class="span1 data-content">
+                                        good good good goodgood good good goodgood good good good
+                                    </div>
+                                </li>
+                                <li class="bui-btn bui-box">
+                                    <span class="username">王芳芳:</span>
+                                    <div class="span1 data-content">
+                                        good good good goodgood good good goodgood good good good
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="bui-btn bui-box">
+                <div class="icon status-pic">
+                    <img src="../images/applogo.png" alt=""/>
+                </div>
+                <div class="span1">
+                    <h3 class="item-title status-title">李师师</h3>
+                    <p class="details-content">分享投票结果:不对外开放</p>
+                </div>
+            </li>
+        </ul>
+        <div class="publish-mark">
+            <i class="icon-setting"></i>
+        </div>
+    </main>
+    <footer>
+        <ul class="bui-nav status-foot-nav">
+            <li class="bui-btn bui-box-vertical">
+                <i class="icon-home"></i>
+                <div class="span1">
+                    消息
+                </div>
+            </li>
+            <li class="bui-btn bui-box-vertical">
+                <i class="icon-face"></i>
+                <div class="span1">
+                    群组
+                </div>
+            </li>
+            <li class="bui-btn bui-box-vertical">
+                <i class="icon-facefill"></i>
+                <div class="span1">
+                    联系人
+                </div>
+            </li>
+            <li class="bui-btn bui-box-vertical active">
+                <i class="icon-fav"></i>
+                <div class="span1">
+                    动态
+                </div>
+            </li>
+        </ul>
+    </footer>
+</div>
+</body>
+</html>

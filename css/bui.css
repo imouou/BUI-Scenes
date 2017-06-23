@@ -3,7 +3,7 @@
 -----------------------------*/
 * { -webkit-box-sizing: border-box; box-sizing: border-box; }
 
-html, body { -webkit-overflow-scrolling: auto; overflow-scrolling: auto; }
+html, body { overflow: hidden; }
 
 html { font-size: 60px; -webkit-text-size-adjust: 100%; }
 
@@ -141,16 +141,18 @@ button[class*=bui-btn], input[type="button"][class*=bui-btn] { width: 100%; }
 [class*=bui-btn-text] { background: none; border: none; }
 
 .bui-list { text-align: left; border-top: 1px solid #efefef; }
-.bui-list > [class*=bui-btn] { border: 0; text-align: left; padding-top: 0.1rem; padding-bottom: 0.1rem; padding-left: 0.2rem; padding-right: 0.15rem; display: -webkit-box; display: box; -webkit-box-align: center; box-align: center; -webkit-border-radius: 0; border-radius: 0; font-size: 0.22rem; border-bottom: 1px solid #efefef; }
+.bui-list > [class*=bui-btn] { border: 0; text-align: left; padding-top: 0.1rem; padding-bottom: 0.1rem; padding-left: 0.2rem; padding-right: 0.15rem; -webkit-border-radius: 0; border-radius: 0; font-size: 0.22rem; border-bottom: 1px solid #efefef; display: -webkit-box; display: box; -webkit-box-align: center; box-align: center; }
 .bui-list > [class*=bui-btn] .bui-list { border-top: 0; border-bottom: 0; }
 .bui-list > [class*=bui-btn]:last-child:after { content: ""; position: relative; }
 .bui-list > [class*=bui-btn] input[type="text"] { padding-left: 0; }
+.bui-list .bui-box { -webkit-box-align: center; box-align: center; }
+.bui-list .bui-box .span1 { text-align: left; }
+.bui-list > .bui-box-align-top { -webkit-box-align: start; box-align: start; }
+.bui-list > .bui-box-align-bottom { -webkit-box-align: end; box-align: end; }
 .bui-list > .bui-btn-title { padding-top: 0.1rem; padding-bottom: 0.1rem; background: whitesmoke; min-height: .5rem; }
 .bui-list > .active { background-color: #efefef; }
 .bui-list > .bui-btn-line { padding-top: 0; padding-bottom: 0; line-height: .62rem; }
 .bui-list .bui-select { padding-left: 0; }
-.bui-list .bui-box { -webkit-box-align: center; box-align: center; }
-.bui-list .bui-box .span1 { text-align: left; }
 .bui-list .thumbnail { width: 0.8rem; height: 0.8rem; margin: 0; margin-right: 0.2rem; }
 .bui-list .thumbnail img { width: 100%; height: 100%; }
 .bui-list .icon { width: 0.54rem; height: 0.54rem; line-height: 0.54rem; text-align: center; margin: 0; margin-right: 0.2rem; font-size: .4rem; }
@@ -396,6 +398,66 @@ input.bui-input { border: 0; min-height: 0.42rem; }
 
 .bui-fluid-space { margin-left: 0.1rem; margin-right: 0.1rem; }
 .bui-fluid-space [class*=span] { padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-1 > li, .bui-fluid-1 > [class*=bui-btn], .bui-fluid-1 > [class*=span], .bui-fluid-1 > * { float: left; width: 100%; }
+
+.bui-fluid-2 > li, .bui-fluid-2 > [class*=bui-btn], .bui-fluid-2 > [class*=span], .bui-fluid-2 > * { float: left; width: 50%; }
+
+.bui-fluid-3 > li, .bui-fluid-3 > [class*=bui-btn], .bui-fluid-3 > [class*=span], .bui-fluid-3 > * { float: left; width: 33.33333%; }
+
+.bui-fluid-4 > li, .bui-fluid-4 > [class*=bui-btn], .bui-fluid-4 > [class*=span], .bui-fluid-4 > * { float: left; width: 25%; }
+
+.bui-fluid-5 > li, .bui-fluid-5 > [class*=bui-btn], .bui-fluid-5 > [class*=span], .bui-fluid-5 > * { float: left; width: 20%; }
+
+.bui-fluid-6 > li, .bui-fluid-6 > [class*=bui-btn], .bui-fluid-6 > [class*=span], .bui-fluid-6 > * { float: left; width: 16.66667%; }
+
+.bui-fluid-7 > li, .bui-fluid-7 > [class*=bui-btn], .bui-fluid-7 > [class*=span], .bui-fluid-7 > * { float: left; width: 14.28571%; }
+
+.bui-fluid-8 > li, .bui-fluid-8 > [class*=bui-btn], .bui-fluid-8 > [class*=span], .bui-fluid-8 > * { float: left; width: 12.5%; }
+
+.bui-fluid-9 > li, .bui-fluid-9 > [class*=bui-btn], .bui-fluid-9 > [class*=span], .bui-fluid-9 > * { float: left; width: 11.11111%; }
+
+.bui-fluid-10 > li, .bui-fluid-10 > [class*=bui-btn], .bui-fluid-10 > [class*=span], .bui-fluid-10 > * { float: left; width: 10%; }
+
+.bui-fluid-11 > li, .bui-fluid-11 > [class*=bui-btn], .bui-fluid-11 > [class*=span], .bui-fluid-11 > * { float: left; width: 9.09091%; }
+
+.bui-fluid-12 > li, .bui-fluid-12 > [class*=bui-btn], .bui-fluid-12 > [class*=span], .bui-fluid-12 > * { float: left; width: 8.33333%; }
+
+.bui-fluid-space-1 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-1 > li, .bui-fluid-space-1 > [class*=bui-btn], .bui-fluid-space-1 > [class*=span], .bui-fluid-space-1 > * { float: left; width: 100%; padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-space-2 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-2 > li, .bui-fluid-space-2 > [class*=bui-btn], .bui-fluid-space-2 > [class*=span], .bui-fluid-space-2 > * { float: left; width: 50%; padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-space-3 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-3 > li, .bui-fluid-space-3 > [class*=bui-btn], .bui-fluid-space-3 > [class*=span], .bui-fluid-space-3 > * { float: left; width: 33.33333%; padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-space-4 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-4 > li, .bui-fluid-space-4 > [class*=bui-btn], .bui-fluid-space-4 > [class*=span], .bui-fluid-space-4 > * { float: left; width: 25%; padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-space-5 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-5 > li, .bui-fluid-space-5 > [class*=bui-btn], .bui-fluid-space-5 > [class*=span], .bui-fluid-space-5 > * { float: left; width: 20%; padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-space-6 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-6 > li, .bui-fluid-space-6 > [class*=bui-btn], .bui-fluid-space-6 > [class*=span], .bui-fluid-space-6 > * { float: left; width: 16.66667%; padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-space-7 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-7 > li, .bui-fluid-space-7 > [class*=bui-btn], .bui-fluid-space-7 > [class*=span], .bui-fluid-space-7 > * { float: left; width: 14.28571%; padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-space-8 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-8 > li, .bui-fluid-space-8 > [class*=bui-btn], .bui-fluid-space-8 > [class*=span], .bui-fluid-space-8 > * { float: left; width: 12.5%; padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-space-9 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-9 > li, .bui-fluid-space-9 > [class*=bui-btn], .bui-fluid-space-9 > [class*=span], .bui-fluid-space-9 > * { float: left; width: 11.11111%; padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-space-10 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-10 > li, .bui-fluid-space-10 > [class*=bui-btn], .bui-fluid-space-10 > [class*=span], .bui-fluid-space-10 > * { float: left; width: 10%; padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-space-11 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-11 > li, .bui-fluid-space-11 > [class*=bui-btn], .bui-fluid-space-11 > [class*=span], .bui-fluid-space-11 > * { float: left; width: 9.09091%; padding-left: 0.1rem; padding-right: 0.1rem; }
+
+.bui-fluid-space-12 { margin-left: 0.1rem; margin-right: 0.1rem; }
+.bui-fluid-space-12 > li, .bui-fluid-space-12 > [class*=bui-btn], .bui-fluid-space-12 > [class*=span], .bui-fluid-space-12 > * { float: left; width: 8.33333%; padding-left: 0.1rem; padding-right: 0.1rem; }
 
 .bui-badges { display: inline-block; text-align: center; color: #fff; min-width: 0.12rem; min-height: 0.12rem; line-height: 0.24rem; background: #f33600; padding-left: .06rem; padding-right: 0.06rem; -webkit-border-radius: 0.12rem; border-radius: 0.12rem; font-size: 0.18rem; font-style: normal; margin: 0 .1rem 0 0; }
 

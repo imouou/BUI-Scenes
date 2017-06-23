@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="author" content="颜家超"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+    <title>日程</title>
+    <link rel="stylesheet" href="../css/bui.css"/>
+
+    <style>
+        .bui-bar .add-bar-width {
+            width: 1rem;
+        }
+
+        .bui-bar .add-bar-width .bui-btn {
+            width: 1.1rem;
+        }
+
+        .add-bar-width .bui-btn .name {
+            vertical-align: top;
+        }
+
+        .wrap-date{
+            padding:.18rem;
+            border:none;
+        }
+        .wrap-date .schedule-date .data-time{
+            color:#333;
+        }
+        .wrap-date .schedule-date .data-time2{
+            padding: 0 .18rem 0 .09rem;
+            color:#999;
+            font-size:.2rem;
+        }
+        .wrap-date .schedule-date .date-today{
+            display:inline-block;
+            width:.4rem;
+            height:.4rem;
+            text-align:center;
+            line-height:.4rem;
+            color:#00aaff;
+            border:1px solid #00aaff;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+        .wrap-date .schedule-week span{
+            display:inline-block;
+            width:.3rem;
+            height:.3rem;
+            font-size:.2rem;
+            text-align:center;
+            line-height:.3rem;
+            border:1px solid #00aaff;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            color:#9a9a9a;
+        }
+        .wrap-date .schedule-week .week-active{
+            color:#00aaff;
+        }
+        .date-lists{
+            padding:0 .18rem .18rem;
+            border:none;
+        }
+        .date-lists .span1 span{
+            display:block;
+            text-align:center;
+        }
+        .date-lists .span1 .data-up{
+            padding-bottom:.03rem;
+        }
+        .date-lists .span1 .data-down{
+            margin:0 auto;
+            width:.55rem;
+            height:.55rem;
+            line-height: .58rem;
+            color:#000;
+            font-size:.3rem;
+
+        }
+        .date-lists .span1:last-child .data-down{
+            color:#999;
+        }
+        .date-lists .span1 .active-data-down{
+            background-color:#00aaff;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            color:#fff!important;
+        }
+        .time-lists{
+            margin-top:.18rem;
+            padding:0 .18rem .2rem .2rem;
+            border-top:none;
+            background-color:#fff;
+        }
+        .time-lists .bui-box{
+            padding:0.2rem 0 .2rem 0;;
+        }
+        .time-lists .left-time{
+            margin-right:.18rem;
+            color:#666;
+        }
+        .time-lists .middle-content .item-title{
+            color:#333;
+        }
+        .time-lists .middle-content .item-text{
+            margin-bottom:0;
+            font-size:.18rem;
+
+        }
+        .time-lists .right-mark{
+            width:.5rem;
+            height:.5rem;
+            text-align:center;
+            line-height:.5rem;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+        .time-lists .green-mark{
+            color:#6ed046;
+            border:1px solid #6ed046;
+        }
+        .time-lists .yellow-mark{
+            color:#ffad03;
+            border:1px solid #ffad03;
+        }
+        .add-mark{
+            position:fixed;
+            right:.23rem;
+            bottom:.23rem;
+            width:.8rem;
+            height:.8rem;
+            line-height:.8rem;
+            text-align:center;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            color:#fff;
+            background-color:#52a4ff;
+        }
+        .add-mark .icon-plus{
+            color:#fff;
+            font-size:.44rem;
+        }
+    </style>
+    <script src="../js/zepto.js"></script>
+    <script src="../js/plugins/fastclick.js"></script>
+    <script src="../js/bui.js"></script>
+    <script src="../js/app/_config.js"></script>
+    <script>
+
+        var pageview = {};
+
+        bui.ready(function () {
+            
+            // 执行初始化
+            pageview.init();
+        })
+
+        pageview.bind = function () {
+
+            //初始化页面的链接跳转
+            bui.btn({id: "#page", handle: ".bui-btn"}).load();
+
+        }
+        pageview.init = function () {
+
+            //下拉菜单 在顶部中间
+            var barMain = bui.dropdown({
+                id: "#barMain",
+                showArrow: true,
+                relative: false
+            })
+            // 下拉菜单有遮罩的情况
+            var uiMask = bui.mask({
+                zIndex:9
+            });
+
+            // 通过监听事件绑定
+            barMain.on("show",function () {
+                uiMask.show();
+            })
+            barMain.on("hide",function () {
+                uiMask.hide();
+            })
+
+            this.bind();
+        }
+    </script>
+</head>
+<body>
+<div class="bui-page" id="page">
+    <header class="bui-bar">
+            <div class="bui-bar-left add-bar-width">
+                <a class="bui-btn" onclick="bui.back();">
+                    <i class="icon-back"></i>返回
+                </a>
+            </div>
+            <div class="bui-bar-main">
+                选择日期
+            </div>
+            <div class="bui-bar-right">
+                <a class="bui-btn">
+                    <i class="icon-menu"></i>
+                </a>
+            </div>
+    </header>
+    <main>
+        <div class="bui-box bui-btn wrap-date">
+             <div class="span1 schedule-date">
+                 <span class="data-time">2015.3.22</span>
+                 <span class="data-time2">二月初四</span>
+                 <span class="date-today">今</span>
+             </div>
+             <div class="schedule-week">
+                 <span class="week-active">日</span>
+                 <span>周</span>
+                 <span>月</span>
+             </div>
+        </div>
+        <div class="bui-box bui-btn date-lists">
+            <div class="span1">
+                <span class="data-up">日</span>
+                <span class="data-down active-data-down">
+                    22
+                </span>
+            </div>
+            <div class="span1">
+                <span class="data-up">一</span>
+                <span class="data-down">
+                    23
+                </span>
+            </div>
+            <div class="span1">
+                <span class="data-up">二</span>
+                <span class="data-down">
+                    24
+                </span>
+            </div>
+            <div class="span1">
+                <span class="data-up">三</span>
+                <span class="data-down">
+                    25
+                </span>
+            </div>
+            <div class="span1">
+                <span class="data-up">四</span>
+                <span class="data-down">
+                    26
+                </span>
+            </div>
+            <div class="span1">
+                <span class="data-up">五</span>
+                <span class="data-down">
+                    27
+                </span>
+            </div>
+            <div class="span1">
+                <span class="data-up">六</span>
+                <span class="data-down">
+                    28
+                </span>
+            </div>
+        </div>
+        <ul class="bui-list time-lists">
+            <li class="bui-box bui-btn">
+                <div class="left-time">
+                    9:00
+                </div>
+                <div class="span1 middle-content">
+                    <h3 class="item-title">
+                        @work开发动员大会
+                    </h3>
+                    <p class="item-text">
+                        13:30 - 16:30
+                    </p>
+                </div>
+                <div class="right-mark green-mark">
+                    会
+                </div>
+            </li>
+            <li class="bui-box bui-btn">
+                <div class="left-time">
+                    10:00
+                </div>
+                <div class="span1 middle-content">
+                    <h3 class="item-title">
+                        @work开发动员大会
+                    </h3>
+                    <p class="item-text">
+                        13:30 - 16:30
+                    </p>
+                </div>
+                <div class="right-mark yellow-mark">
+                    任
+                </div>
+            </li>
+            <li class="bui-box bui-btn">
+                <div class="left-time">
+                    11:00
+                </div>
+                <div class="span1 middle-content">
+                    <h3 class="item-title">
+                        @work开发动员大会
+                    </h3>
+                    <p class="item-text">
+                        13:30 - 16:30
+                    </p>
+                </div>
+                <div class="right-mark green-mark">
+                    会
+                </div>
+            </li>
+            <li class="bui-box bui-btn">
+                <div class="left-time">
+                    12:00
+                </div>
+                <div class="span1 middle-content">
+
+                </div>
+            </li>
+            <li class="bui-box bui-btn">
+                <div class="left-time">
+                    13:00
+                </div>
+                <div class="span1 middle-content">
+
+                </div>
+            </li>
+            <li class="bui-box bui-btn">
+                <div class="left-time">
+                    14:00
+                </div>
+                <div class="span1 middle-content">
+
+                </div>
+            </li>
+            <li class="bui-box bui-btn">
+                <div class="left-time">
+                    15:00
+                </div>
+                <div class="span1 middle-content">
+
+                </div>
+            </li>
+            <li class="bui-box bui-btn">
+                <div class="left-time">
+                    16:00
+                </div>
+                <div class="span1 middle-content">
+
+                </div>
+            </li>
+        </ul>
+        <div class="add-mark">
+            <i class="icon-plus"></i>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

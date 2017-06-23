@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<meta name="author" content="颜家超"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/>
+<title>问答</title>
+<link rel="stylesheet" href="../css/bui.css"/>
+<script src="../js/zepto.js"></script>
+<script src="../js/plugins/fastclick.js"></script>
+<script src="../js/bui.js"></script>
+<script src="../js/app/_config.js"></script>
+<script>
+    var pageview = {};
+    var uiDialog,
+        uiTab;
+
+    bui.ready(function (argument) {
+        
+        pageview.init();
+
+    });
+
+    pageview.bind = function () {
+        //初始化页面的链接跳转
+        bui.btn({id: "#page", handle: ".bui-btn"}).load();
+
+        // 打开兑换框
+        $("#publish-open").on("click", function () {
+            uiDialog.open();
+        });
+    }
+    pageview.init = function () {
+
+        // 初始化tab控件
+        uiTab = bui.slide({
+            id:"#tabProduct",
+            menu:".bui-tab-head ul",
+            children:".bui-tab-main ul",
+            scroll:true
+        });
+
+        // 自动跳到第3个页面
+        uiTab.to(2,"none")
+
+        // 初始化dialog控件
+        uiDialog = bui.dialog({
+            id: "#dialog3",
+            callback: function () {
+                var text = $(this).text().trim();
+                console.log(text)
+            }
+        });
+
+        // 绑定页面事件
+        this.bind();
+    }
+</script>
+<style>
+    .bui-bar .add-bar-width {
+        width: 1rem;
+    }
+
+    .bui-bar .add-bar-width .bui-btn {
+        width: 1rem;
+    }
+
+    .add-bar-width .bui-btn .name {
+        vertical-align: top;
+    }
+
+    .bui-bar .answer-right {
+        width: auto;
+    }
+
+    .answer-panel {
+        margin-top: 0;
+        padding: .3rem 0 .3rem 1.3rem;
+
+        border: 0;
+        color: #fff;
+        background-color: #05324f;
+    }
+
+    .answer-panel .bui-panel-head {
+        padding: 0 0 .3rem 0;
+        font-size: .4rem;
+        color: #fff;
+        border-bottom: none;
+    }
+
+    .answer-panel .bui-panel-main {
+        border-bottom: none;
+    }
+
+    .answer-panel .bui-panel-main .span6 {
+        padding-bottom: .3rem;
+    }
+
+    .answer-panel .bui-panel-main .span6 span:first-child {
+        display: inline-block;
+        margin-right: .1rem;
+        width: .3rem;
+        height: .3rem;
+        font-size: .2rem;
+        text-align: center;
+        line-height: .35rem;
+        color: #333;
+        -webkit-border-radius: .5rem;
+        -moz-border-radius: .5rem;
+        border-radius: .5rem;
+    }
+
+    .answer-panel .bui-panel-main .span6 .first {
+        background-color: #f1d071;
+
+    }
+
+    .answer-panel .bui-panel-main .span6 .second {
+        background-color: #e49745;
+
+    }
+
+    .answer-panel .bui-panel-main .span6 .three {
+        background-color: #62d3d0;
+
+    }
+
+    .answer-panel .bui-panel-main .span6 .four {
+        background-color: #dd7773;
+
+    }
+
+    .product-answer{
+        position:relative;
+    }
+    .product-answer > .bui-btn {
+        padding-bottom: 0;
+        padding-top: .12rem;
+        padding-left: .2rem;
+        -webkit-box-align: start;
+        box-align: start;
+        border: none;
+    }
+
+    .product-answer > .bui-btn:not(:first-child) {
+        background-color: #f5f5f5;
+    }
+
+    .product-answer > .bui-btn:not(:first-child) .bui-panel {
+        background-color: #f5f5f5;
+    }
+
+    .product-answer .icon .pic {
+        width: .5rem;
+        height: .5rem;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+    .product-answer .icon {
+        margin-right: .2rem;
+        margin-top: 0;
+        margin-bottom: 0;
+        width: auto;
+        height: auto;
+        text-align:center;
+    }
+
+    .product-answer .icon .username {
+        padding: 0;
+        font-size: .18rem;
+        color: #9ccd67;
+        text-align: center;
+    }
+
+    .product-answer .icon .join {
+        font-size: .18rem;
+        text-align: center;
+    }
+
+    .product-answer .answer-li-panel {
+        margin-top: 0;
+        border: none;
+    }
+
+    .product-answer .answer-li-panel .answer-li-head {
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: .05rem;
+        border-bottom: none;
+    }
+
+    .answer-li-panel .answer-li-head .question-mark {
+        display: inline-block;
+        margin-right: .1rem;
+        width: .25rem;
+        height: .25rem;
+        text-align: center;
+        line-height: .25rem;
+        color: #fff;
+        font-size: .17rem;
+        background-color: #ff7e00;
+        border-radius: .03rem;
+    }
+
+    .answer-li-panel .answer-li-head > .span1 {
+        padding-bottom: .1rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .answer-li-panel .answer-li-head .question-time {
+        margin-top: .05rem;
+        color: #999;
+        font-size: .15rem;
+    }
+
+    .answer-li-panel .answer-li-main {
+        border-bottom: none;
+    }
+
+    .answer-li-panel .answer-li-main .answer-mark {
+        display: inline-block;
+        margin-right: .1rem;
+        width: .25rem;
+        height: .25rem;
+        text-align: center;
+        line-height: .25rem;
+        color: #fff;
+        font-size: .17rem;
+        background-color: #36dcd2;
+        border-radius: .03rem;
+    }
+
+    .answer-li-panel .answer-li-main .answer-content {
+        padding-bottom: .12rem;
+        padding-top: .03rem;
+        margin-bottom: .1rem;
+        font-size: .17rem;
+        color: #666;
+        line-height: 1.5;
+        border-bottom: 1px solid #eee;
+    }
+
+    .answer-li-panel .answer-li-main .answer-content b {
+        font-weight: normal;
+        color: #ffb062;
+    }
+
+    .answer-li-panel .answer-li-main > .bui-box:last-child .answer-content {
+        border-bottom: none;
+    }
+
+    .publish-mark {
+        position: fixed;
+        right: .2rem;
+        bottom: .3rem;
+        width: .6rem;
+        height: .6rem;
+        line-height: .6rem;
+        text-align: center;
+        background-color: #26d76d;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+    .publish-mark i {
+        font-size: .36rem;
+        color: #fff;
+    }
+
+    .answer-dialog {
+        padding-left: .1rem;
+        padding-right: .1rem;
+    }
+
+    .answer-dialog .bui-dialog-head {
+        padding: 0 .05rem;
+        color: #25aaee;
+        border-bottom: 1px solid #eee;
+    }
+
+    .answer-dialog .bui-dialog-main {
+        padding: .05rem .1rem;
+        white-space: normal;
+    }
+
+    .answer-dialog .bui-dialog-main .item-title {
+        padding: .1rem 0 .2rem;
+        text-align: left;
+        font-size: .2rem;
+        color: #333;
+    }
+
+    .answer-dialog .bui-dialog-main .answer-text {
+        padding: .1rem;
+        width: 100%;
+        height: 2rem;
+        font-size: .2rem;
+        resize: none;
+        border: 1px solid #f5f5f5;
+        margin-bottom:.2rem;
+    }
+
+    .answer-dialog .bui-dialog-foot {
+        padding-bottom : .1rem;
+        border-top: 0;
+
+    }
+    .answer-dialog .bui-dialog-foot .span1{
+        padding: 0 .1rem;
+    }
+    .answer-dialog .bui-dialog-foot .span1 [class*=bui-btn]{
+        height:.6rem;
+        line-height:.6rem;
+    }
+    .answer-dialog .bui-dialog-foot .span1:first-child [class*=bui-btn]{
+        border: 1px solid #dedede;
+        -webkit-border-radius: .05rem;
+        border-radius: .05rem;
+    }
+
+    .answer-dialog .bui-dialog-foot .span1:last-child [class*=bui-btn]{
+        -webkit-border-radius : .05rem;
+        border-radius: .05rem;
+    }
+
+    .answer-dialog .bui-dialog-close {
+        top: -0.2rem;
+        right: -0.15rem;
+        width: .4rem;
+        height: .4rem;
+        text-align: center;
+        line-height: .4rem;
+        background-color: #000;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+    }
+
+    .answer-dialog .bui-dialog-close i {
+        color: #fff;
+    }
+</style>
+</head>
+<body>
+<div class="bui-page" id="page">
+    <header class="bui-bar bui-bar-side">
+        <div class="bui-bar-left">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+        </div>
+        <div class="bui-bar-main">
+            详情
+        </div>
+        <div class="bui-bar-right">
+            <a class="bui-btn">
+                <i class="icon-fav"></i>
+            </a>
+            <a class="bui-btn">
+                <i class="icon-info"></i>
+            </a>
+            <a class="bui-btn">
+                <i class="icon-share"></i>
+            </a>
+        </div>
+    </header>
+    <main>
+        <div class="bui-panel answer-panel">
+            <div class="bui-panel-head">
+                Contents
+            </div>
+            <div class="bui-panel-main">
+                <ul class="bui-fluid">
+                    <li class="span6">
+                        <span class="first">01</span>
+                        <span>About us</span>
+                    </li>
+                    <li class="span6">
+                        <span class="second">02</span>
+                        <span>Products</span>
+                    </li>
+                    <li class="span6">
+                        <span class="three">03</span>
+                        <span>Our Team</span>
+                    </li>
+                    <li class="span6">
+                        <span class="four">04</span>
+                        <span>Corprate</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script>
+
+        </script>
+        <div id="tabProduct" class="bui-tab">
+            <div class="bui-tab-head">
+                <ul class="bui-nav">
+                    <li class="bui-btn">产品简介</li>
+                    <li class="bui-btn">产品介绍</li>
+                    <li class="bui-btn active">问答</li>
+                </ul>
+            </div>
+            <div class="bui-tab-main">
+                <ul>
+                    <li>第一个</li>
+                    <li>第二个</li>
+                    <li class="product-answer">
+                        <div class="bui-btn bui-box">
+                            <div class="icon">
+                                <img class="pic" src="../images/applogo.png" alt=""/>
+                                <h5 class="username">王芳</h5>
+                                <span class="join">综合部</span>
+                            </div>
+                            <div class="span1">
+                                <div class="bui-panel answer-li-panel">
+                                    <div class="bui-box bui-panel-head answer-li-head">
+                                        <span class="question-mark">问</span>
+
+                                        <div class="span1">
+                                            <span class="question-content">4G（TD-LTE）是什么？</span>
+                                            <span class="bui-right question-time">01-15</span>
+                                        </div>
+                                    </div>
+                                    <div class=" bui-panel-main answer-li-main">
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                <b>客服:</b>
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                <b>客服:</b>
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="bui-btn bui-box">
+                            <div class="icon">
+                                <img class="pic" src="../images/applogo.png" alt=""/>
+                                <h5 class="username">王芳</h5>
+                                <span class="join">综合部</span>
+                            </div>
+                            <div class="span1">
+                                <div class="bui-panel answer-li-panel">
+                                    <div class="bui-box bui-panel-head answer-li-head">
+                                        <span class="question-mark">问</span>
+
+                                        <div class="span1">
+                                            <span class="question-content">4G（TD-LTE）是什么？</span>
+                                            <span class="bui-right question-time">01-15</span>
+                                        </div>
+                                    </div>
+                                    <div class=" bui-panel-main answer-li-main">
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                <b>客服:</b>
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                <b>客服:</b>
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="bui-btn bui-box">
+                            <div class="icon">
+                                <img class="pic" src="../images/applogo.png" alt=""/>
+                                <h5 class="username">王芳</h5>
+                                <span class="join">综合部</span>
+                            </div>
+                            <div class="span1">
+                                <div class="bui-panel answer-li-panel">
+                                    <div class="bui-box bui-panel-head answer-li-head">
+                                        <span class="question-mark">问</span>
+
+                                        <div class="span1">
+                                            <span class="question-content">4G（TD-LTE）是什么？</span>
+                                            <span class="bui-right question-time">01-15</span>
+                                        </div>
+                                    </div>
+                                    <div class=" bui-panel-main answer-li-main">
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                <b>客服:</b>
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                <b>客服:</b>
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="bui-btn bui-box">
+                            <div class="icon">
+                                <img class="pic" src="../images/applogo.png" alt=""/>
+                                <h5 class="username">王芳</h5>
+                                <span class="join">综合部</span>
+                            </div>
+                            <div class="span1">
+                                <div class="bui-panel answer-li-panel">
+                                    <div class="bui-box bui-panel-head answer-li-head">
+                                        <span class="question-mark">问</span>
+
+                                        <div class="span1">
+                                            <span class="question-content">4G（TD-LTE）是什么？</span>
+                                            <span class="bui-right question-time">01-15</span>
+                                        </div>
+                                    </div>
+                                    <div class=" bui-panel-main answer-li-main">
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                <b>客服:</b>
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                        <div class="bui-box">
+                                            <span class="answer-mark">答</span>
+
+                                            <div class="span1 answer-content">
+                                                <b>客服:</b>
+                                                4G是第四代移动通信技术的简称，其网络速度可达3G网络速度的十几倍到几十倍。
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="publish-mark" id="publish-open">
+            <i class="icon-setting"></i>
+        </div>
+        <!--隐藏的弹出窗口-->
+        <div class="bui-dialog answer-dialog" style="display:none;" id="dialog3">
+            <div class="bui-dialog-head">去提问</div>
+            <div class="bui-dialog-main">
+                <h3 class="item-title">问题将匿名推送到曾经评论过本产品的用户</h3>
+                <textarea class="answer-text" placeholder="写下你的问题"></textarea>
+            </div>
+            <div class="bui-box bui-dialog-foot">
+                <div class="span1">
+                    <div class="bui-btn">取消</div>
+                </div>
+                <div class="span1">
+                    <div class="bui-btn warning">发布</div>
+                </div>
+            </div>
+            <div class="bui-dialog-close">
+                <i class="icon-close"></i>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

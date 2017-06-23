@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<title>首页导航</title>
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="../css/bui.css" /> 
+<script src="../js/zepto.js"></script>
+<script src="../js/plugins/fastclick.js"></script>
+<script src="../js/bui.js"></script>
+<script src="../js/app/_config.js"></script>
+<style type="text/css">
+
+    .bui-scroll .bui-scroll-main {
+        background: #f5f5f5;
+    }
+    /* 轮播图片 */
+    .news-slide .bui-slide-head{
+        text-align: center;
+        bottom: 0;
+    }
+    .news-slide .bui-slide-head ul li{
+        width: 0.1rem;
+        height: 0.1rem;
+        text-indent: -99999px;
+    }
+    /* 快捷入口导航 */
+    .shortcut-nav{
+        margin-top: 0.2rem;
+    }
+    .shortcut-nav [class*=bui-btn]{
+        padding: 0.15rem 0;
+        border: none;
+    }
+    .shortcut-nav [class*=bui-btn] .icon{
+        color: #ffffff;
+        height: 0.7rem;
+        width: 0.7rem;
+        border-radius: 50%;
+        line-height: 0.7rem;
+        margin: 0.1rem 0;
+        font-size: .5rem;
+    }
+    .short1{
+        background-color: #1896d6;
+    }
+    .short2{
+        background-color: #cf85c6;
+    }
+    .short3{
+        background-color: #40afcc;
+    }
+    .short4{
+        background-color: #ed758e;
+    }
+    /* 列表 */
+
+    .news-list{
+        border-top: none;
+        margin-top: 0.2rem;
+        padding: 0 0.2rem;
+        background-color: #ffffff;
+    }
+    .news-list .bui-btn{
+        padding: .2rem 0;
+        border: none;
+        border-top: 1px solid #efefef;
+    }
+    .news-list .thumbnail{
+        width:1.4rem;
+        height: 1rem;
+        background: #a6a6a6;
+        overflow: hidden;
+        text-align: center;
+    }
+    .news-list .thumbnail img {
+        width: 100%;
+        height: auto;
+    }
+    .news-list li:first-child{
+        border-top: none;
+    }
+    .news-list .time{
+        margin-left: 0.15rem;
+        font-size: 0.17rem;
+    }
+    .news-list .icon-{
+        font-size: 0.17rem;
+        margin-right: 0.05rem;
+    }
+    .news-list .item-title{
+        font-size: 0.22rem;
+        height: .6rem;
+        overflow: hidden;
+        line-height: 1.3;
+    }
+    .news-list .item-text{
+        font-size: 0.17rem;
+    }
+
+</style>
+<script>
+    
+    var pageview = {},  // 页面模块
+
+        uiList,         // 列表控件
+        uiSlide;        // 焦点图控件;
+
+	bui.ready(function (argument) {
+        
+        // 页面初始化
+        pageview.init();
+        
+	})
+
+    // 事件绑定
+    pageview.bind = function () {
+
+        // 初始化页面的链接跳转
+        bui.btn({ id:"#page" , handle:".bui-btn"}).load();
+
+    }
+
+    // 页面初始化
+    pageview.init = function () {
+        
+        // 初始化焦点图
+        uiSlide = bui.slide({
+            id:"#slide",
+            height:200,
+            autoplay : true,
+            autopage: true,
+            zoom: true
+        })
+
+        // 初始化列表刷新加载
+        uiList = bui.list({
+            id: "#uiScroll",
+            url: "http://eid.bingosoft.net:82/bui/demo/json/chuangyi/article-list.json",
+            data: {},
+            pageSize:10,
+            field: {
+                page: "page",        // 分页字段
+                size: "pageSize",    // 页数字段
+                data: ""         // 数据
+            },
+            template: template,
+            onLoad: function (scroll) {
+                // 自定义渲染
+            },
+            callback: function (e) {
+                // 点击单行回调 console.log($(this).text())
+            }
+        });
+        
+
+        // 绑定页面事件
+        this.bind();
+    }
+
+    //生成列表的模板
+    function template (data) {
+    
+        var html = "";
+            $.each(data,function(index, el) {
+                html +='<li class="bui-btn bui-box-align-top">';
+                html +='    <div class="thumbnail"><img src="images/Personal3-img-contact.png" alt=""></div>';
+                html +='    <div class="span1">';
+                html +='        <h3 class="item-title">'+el.Name+'</h3>';
+                html +='        <div class="item-text bui-box">';
+                html +='            <div class="span1">'+el.ExInforSources+'</div>';
+                html +='            <span class="time"><i class="icon-">&#xe643;</i>23</span>';
+                html +='            <span class="time"><i class="icon-">&#xe680;</i>495</span>';
+                html +='            <span class="time"><i class="icon-">&#xe641;</i>28</span>';
+                html +='        </div>';
+                html +='    </div>            ';
+                html +='</li>';
+            });
+    
+        return html;
+    };
+    
+</script>
+
+</head>
+<body>
+<div id="page" class="bui-page">
+	<header id="bar" class="bui-bar">
+		<div class="bui-bar-left">
+            <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i></a>
+		</div>
+		<div class="bui-bar-main">首页</div>
+		<div class="bui-bar-right">
+			<a class="bui-btn-inline" ><i class="icon">&#xe606;</i></a>
+		</div>
+	</header>
+	<main>
+
+        <div id="uiScroll" class="bui-scroll">
+            <div class="bui-scroll-head"></div>
+            <div class="bui-scroll-main">
+                <!-- 头部图片轮播 -->
+                <div id="slide" class="bui-slide news-slide">
+                    <div id="slidemain" class="bui-slide-main">
+                        <ul>
+                            <li>
+                                <div style="background: yellow;height: 100%;"></div>
+                            </li>
+                            <li>
+                                <div style="background: orange;height: 100%;"></div>
+                            </li>
+                            <li>
+                                <div style="background: red;height: 100%;"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 快捷入口 -->
+                <ul class="bui-nav shortcut-nav">
+                    <li class="bui-btn bui-box-vertical"><i class="icon short1">&#xe65c;</i><div class="span1">快捷入口</div></li>
+                    <li class="bui-btn bui-box-vertical"><i class="icon short2">&#xe65c;</i><div class="span1">快捷入口</div></li>
+                    <li class="bui-btn bui-box-vertical"><i class="icon short3">&#xe65c;</i><div class="span1">快捷入口</div></li>
+                    <li class="bui-btn bui-box-vertical"><i class="icon short4">&#xe65c;</i><div class="span1">快捷入口</div></li>
+                </ul>
+                <!-- 列表 -->
+                <ul class="bui-list news-list" id="scrollList" >
+                    <!-- <li class="bui-btn bui-box-align-top">
+                        <div class="thumbnail"><img src="images/Personal3-img-contact.png" alt=""></div>
+                        <div class="span1">
+                            <h3 class="item-title">列表标题列表标题列表标题列表标题列表标</h3>
+                            <div class="item-text bui-box">
+                                <div class="span1">发帖用户</div>
+                                <span class="time"><i class="icon">&#xe643;</i>23</span>
+                                <span class="time"><i class="icon">&#xe680;</i>495</span>
+                                <span class="time"><i class="icon">&#xe641;</i>28</span>
+                            </div>
+                        </div>            
+                    </li> -->
+                </ul>
+            </div>
+            <div class="bui-scroll-foot"></div>
+        </div>
+	</main>
+    <footer>
+        <!-- 底部d导航栏 -->
+        <ul class="bui-nav footer-nav">
+            <li class="bui-btn bui-box-vertical active"><i class="icon">&#xe659;</i><div class="span1">首页</div></li>
+            <li class="bui-btn bui-box-vertical"><i class="icon">&#xe62d;</i><div class="span1">论坛</div></li>
+            <li class="bui-btn bui-box-vertical"><i class="icon">&#xe65b;</i><div class="span1">通讯录</div></li>
+            <li class="bui-btn bui-box-vertical"><i class="icon">&#xe67a;</i><div class="span1">我的</div></li>
+        </ul>
+    </footer>
+
+</div>
+	
+</body>
+</html>
