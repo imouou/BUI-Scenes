@@ -128,6 +128,16 @@
 
                 }
             },100))
+
+            // 让底部的输入框聚焦顶上去
+            $('.bui-input').on('click', function () {
+                $("html,body").css("overflow","scroll");
+                var target = this;
+                // 使用定时器是为了让输入框上滑时更加自然
+                setTimeout(function(){
+                  target.scrollIntoView(true);
+                },100);
+            });
         }
 
         // 聊天模板
