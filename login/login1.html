@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en-US">
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <title>通用的登录页面结构</title>
@@ -12,11 +12,11 @@
 <script src="../js/app/_config.js"></script>
 <style type="text/css">
     .login-page main{
-    	background-color: #ffffff;
+        background-color: #ffffff;
     }
     .logo{
-    	height: 2rem;
-    	margin: .5rem auto ;
+        height: 2rem;
+        margin: .5rem auto ;
         text-align: center;
     }
     .logo img{
@@ -27,7 +27,7 @@
         padding-right: .3rem;
     }
     .login-form .bui-list{
-    	border-top: none;
+        border-top: none;
         margin-bottom: .3rem;
     }
     .login-form .bui-btn{
@@ -35,18 +35,18 @@
         padding-right: 0;
     }
     .login-form .bui-label{
-    	width: 0.5rem;
+        width: 0.5rem;
     }
     .login-form .icon-face,
     .login-form .icon-lock{
-    	font-size: 0.36rem;
+        font-size: 0.36rem;
     }
     .login-form .bui-input {
         height: .6rem;
     }
     .login-form .primary{
-    	background-color: #52a4ff;
-    	color: #ffffff;
+        background-color: #52a4ff;
+        color: #ffffff;
         font-size: 0.26rem;
         -webkit-border-radius: 0.06rem;
         border-radius: 0.06rem;
@@ -55,28 +55,35 @@
         margin-bottom: .2rem;
     }
     .login-form .bui-btn-text{
-    	text-align: center;
+        text-align: center;
         color: #666666;
         font-size: 0.2rem;
     }
     .copyright{
-    	font-size: 0.17rem;
-    	color: #999999;
-    	width: 100%;
-    	text-align: center;
+        font-size: 0.17rem;
+        color: #999999;
+        width: 100%;
+        text-align: center;
         background-color: #ffffff;
         padding-bottom: 0.25rem;
     }
 
+    
+    .icon-eye:before {
+        content: "\e680"
+    }
+    .icon-eye.active:before {
+        content: "\e67f"
+    }
 
 </style>
 <script>
     var pageview = {};
-	bui.ready(function () {
+    bui.ready(function () {
 
         // 页面初始化
         pageview.init();
-	})
+    })
 
     pageview.bind = function () {
         
@@ -88,20 +95,31 @@
             id: ".user-input",
             callback: function () {
                 // 点击删除按钮清空
-                $(".user-input input").val('');
+                $(this).prev().val('');
                 $(this).hide();
             }
         })
 
+
         // 监听密码输入事件
         onInput({
             id: ".password-input",
+            icon: "icon-eye",
             callback: function () {
                 // 点击删除按钮清空
-                $("#password").val('');
-                $(this).hide();
+                var $input = $(this).prev();
+                var type = $input.attr("type");
+
+                if( type == "text"){
+                    $input.attr('type',"password");
+                }else{
+                    $input.attr('type',"text");
+
+                }
+                $(this).toggleClass("active")
             }
         })
+
     }
 
     pageview.init = function () {
@@ -137,31 +155,35 @@
      * 
      * @return {[type]}     [description]
      */
-    function onInput(opt) {
-        var opt = opt || {};
-            opt.id = opt.id || "";
-            opt.target = opt.target || "input";
-            opt.event = opt.event || "keyup";
-            opt.icon = opt.icon || "icon-remove";
-            opt.onInput = opt.onInput || function () {};
-            opt.callback = opt.callback || function () {};
+    function onInput(option) {
+        var opt = option || {};
+            opt.id = option.id || "";
+            opt.target = option.target || "input";
+            opt.event = option.event || "keyup";
+            opt.icon = option.icon || "icon-remove" ;
+            opt.onInput = option.onInput || function () {};
+            opt.callback = option.callback || function () {};
+
 
         if( opt.id == "" || opt.id === null ){
             return;
         }
         var $id = $(opt.id),
-            $target = $id.find(opt.target);
+            $target = $id.find(opt.target),
             iconClass = '.'+opt.icon;
 
         // 输入框监听延迟执行
         $target.on(opt.event,bui.unit.debounce(function () {
             var val = $(this).val(),
-                $btnRemove = $id.find(iconClass);
+                $parent = $(this).parent(),
+                $btnRemove = $parent.find(iconClass);
             if(val.length > 0){
+
                 if( $btnRemove && $btnRemove.length ){
                     $btnRemove.css("display","block");
                 }else{
-                    $id.append('<i class="'+opt.icon+'"></i>');
+
+                    $parent.append('<i class="'+opt.icon+'"></i>');
                     $btnRemove = $target.find(iconClass);
                 }
             }else{
@@ -170,6 +192,11 @@
 
             opt.onInput && opt.onInput.call(this);
         },100))
+
+        $target.on("focus",function(){
+            $id.find(iconClass).css("display","none")
+            $(this).next().css("display","block")
+        })
 
         // 图标点击事件
         $id.on("click",iconClass,function () {
@@ -182,49 +209,49 @@
 </head>
 <body>
 <div id="page" class="bui-page login-page">
-	<header id="bar" class="bui-bar">
-		<div class="bui-bar">
-			<div class="bui-bar-left">
-				<a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i>
-			    </a>
-			</div>
-			<div class="bui-bar-main">登录</div>
-			<div class="bui-bar-right">
-			</div>
-		</div>
-	</header>
-	<main>
+    <header id="bar" class="bui-bar">
+        <div class="bui-bar">
+            <div class="bui-bar-left">
+                <a class="bui-btn" onclick="bui.back();"><i class="icon-back"></i>
+                </a>
+            </div>
+            <div class="bui-bar-main">登录</div>
+            <div class="bui-bar-right">
+            </div>
+        </div>
+    </header>
+    <main>
         <div class="logo"><img src="../images/applogo.png" alt=""></div>
         <div class="login-form">
             <ul class="bui-list">
-    			<li class="bui-btn bui-box clearactive">
-    				<label class="bui-label" for="user"><i class="icon-face"></i></label>
-    				<div class="span1">
-    					<div class="bui-input user-input">
-    						<input id="user" type="text" placeholder="用户名">
-    					</div>
-    				</div>
-    			</li>
-    			<li class="bui-btn bui-box clearactive">
-    				<label class="bui-label" for="password"><i class="icon-lock"></i></label>
-    				<div class="span1">
-    					<div class="bui-input password-input">
-    						<input id="password" type="password" placeholder="密码">
-    					</div>
-    				</div>
-    			</li>
-    		</ul>
-    		<div class="bui-btn round primary">登录</div>
+                <li class="bui-btn bui-box clearactive">
+                    <label class="bui-label" for="user"><i class="icon-face"></i></label>
+                    <div class="span1">
+                        <div class="bui-input user-input">
+                            <input id="user" type="text" placeholder="用户名">
+                        </div>
+                    </div>
+                </li>
+                <li class="bui-btn bui-box clearactive">
+                    <label class="bui-label" for="password"><i class="icon-lock"></i></label>
+                    <div class="span1">
+                        <div class="bui-input password-input">
+                            <input id="password" type="password" placeholder="密码">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="bui-btn round primary">登录</div>
             <div class="bui-btn-text" href="Register.html">注册</div>
-    		<div class="bui-btn-text">忘记密码</div>
+            <div class="bui-btn-text">忘记密码</div>
         </div>
-	</main>
+    </main>
     
     <footer>
         <div class="copyright">中国移动版权所有</div>
     </footer>
 
 </div>
-	
+    
 </body>
 </html>
