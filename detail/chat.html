@@ -132,7 +132,7 @@
         },100))
 
         var interval = null;
-        var count = 10;
+        var count = 3;
         // 为input绑定事件
         $chatInput.on('focus', function () {
             var target = this;
@@ -140,13 +140,13 @@
             // 使用定时器是为了延迟计算
             interval = setTimeout(function(){
                 var winHeight = $(window).height();
+                
                 bui.init({
                     id: $(".bui-page"),
                     height: winHeight ,
                 })
                 $(".bui-page")[0].scrollIntoView(true);
-
-            },300);
+            },500);
         }).on('blur', function () {
             if( interval ){
                 clearTimeout(interval);
@@ -157,8 +157,7 @@
                     id: $(".bui-page"),
                 })
                 $(".bui-page")[0].scrollIntoView(true);
-
-            },300);
+            },500);
         });
     }
 
