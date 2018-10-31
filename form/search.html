@@ -43,16 +43,15 @@
             background-color: transparent;
         }
 
-        .search-bar .wrap-search {
-            padding: .4rem .2rem;
-            background-color: transparent;
+        .search-bar .bui-searchbar{
+            padding-bottom: .2rem;
+        }
+        .search-bar .bui-searchbar .bui-input{
+            height: auto;
+            line-height: auto;
+            border-radius: .07rem;
         }
 
-        .search-bar .wrap-search .wrap-input {
-            -webkit-border-radius: .05rem;
-            -moz-border-radius: .05rem;
-            border-radius: .05rem;
-        }
 
         .bui-bar .add-bar-width {
             width: 1rem;
@@ -74,28 +73,11 @@
         }
 
         .search-main .search-panel .data-panel {
-            padding-top: .13rem;
-            padding-bottom: .13rem;
-            font-size: .2rem;
             color: #999;
         }
 
-        .search-main .bui-panel-head {
-            padding-top: .13rem;
-            padding-bottom: .13rem;
-            font-size: .22rem;
-            border-bottom-width: 1px;
-        }
-
-        .search-main .bui-panel-foot {
-            padding:0;
-            padding-top: .2rem;
-            padding-bottom: .2rem;
-            text-align: center;
-        }
         .search-main .bui-panel-foot .bui-btn{
             border:0;
-            padding:0;
             min-height: .2rem;
         }
 
@@ -105,14 +87,11 @@
         }
 
         .lists-panel .bui-panel-head {
-            padding-top: .2rem;
-            padding-bottom: .2rem;
-            font-size: .22rem;
             border-bottom: none;
         }
 
         .lists-panel .bui-panel-main {
-            padding: 0 .2rem .2rem;
+            padding: .2rem;
             border-bottom:none;
         }
 
@@ -122,9 +101,9 @@
 
         }
 
-        .lists-panel .bui-panel-main .lists-tag {
-            display: inline-block;
-            width: 100%;
+        .lists-tag {
+            display: block;
+            /*width: 100%;*/
             padding: .08rem 0;
             font-size: .2rem;
             color: #666;
@@ -162,8 +141,8 @@
 
             </div>
         </div>
-        <div class="bui-searchbar wrap-search">
-            <div class="bui-input wrap-input">
+        <div class="bui-searchbar">
+            <div class="bui-input">
                 <i class="icon-search">
                 </i>
                 <input type="text" value="" placeholder="搜索"/>
@@ -196,12 +175,12 @@
             </div>
 
         </div>
-        <div class="bui-panel  lists-panel">
+        <div class="bui-panel lists-panel">
             <div class="bui-panel-head">
                 搜索热词
             </div>
             <div class="bui-panel-main">
-                <div class="bui-fluid">
+                <div class="bui-fluid-space">
                     <div class="span4">
                         <span class="lists-tag">OA办公</span>
                     </div>

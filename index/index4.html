@@ -26,7 +26,7 @@
     }
     /* 左边圆环 */
     .content-round{
-        width: 1.8rem;
+        width: 2.5rem;
         position: relative;
     }
     .percent-img{
@@ -49,10 +49,13 @@
     .content-round .today{
         color: #353535;
         font-size: 0.18rem;
+        width: 100%;
         text-align: center;
         position: absolute;
-        top: 0.4rem;
-        left: 0.5rem;
+        left: 50%;
+        top: 30%;
+        margin-left: -1.25rem;
+
         line-height: 1;
     }
     .content-round .today span{
@@ -67,6 +70,8 @@
     }
     .content-mess li{
         overflow: hidden;
+        -webkit-box-flex:1;
+        box-flex:1;
     }
     .content-mess li:first-child{
         padding-bottom: 0.15rem;
@@ -77,15 +82,14 @@
     }
     .mess-title{
         float: left;
-        text-align: center;
+        text-align: left;
     }
     .mess-title p:first-child{
-        font-size: 0.28rem;
         color: #505050;
     }
     .mess-title p:last-child{
         font-size: 0.18rem;
-        color: #6f6f6f;
+        color: #999;
     }
     .mess-num{
         margin-top: 0.1rem;
@@ -95,13 +99,13 @@
     }
     .mess-num span{
         color: gray;
-        font-size: 0.38rem;
+        font-size: 0.46rem;
     }
     .mess-num span:first-child{
         color: #00aeef; 
     }
     .mess-num span:last-child{
-        font-size: 0.25rem;
+        font-size: 0.32rem;
         color: #37ca3a;
     }
      
@@ -114,7 +118,7 @@
     }
     .exammine>[class*=bui-btn]{
         border: none;
-        padding: 0 0.15rem;
+        padding: 0 0.2rem;
         border-right: 1px solid #f5f5f5;
     }
     .activity .icon,
@@ -143,9 +147,9 @@
     }
 
     .exammine .thumbnail{
-        line-height: 0.65rem;
-        height: 0.65rem;
-        width: 0.65rem;
+        line-height: 0.88rem;
+        height: 0.88rem;
+        width: 0.88rem;
         text-align: center;
         border-radius: 50%;
         margin-right: 0;
@@ -161,7 +165,7 @@
         background-color: #f16a7a;
     }
     .exammine [class*=bui-btn] .icon{
-        font-size: 0.4rem;
+        font-size: 0.54rem;
         margin: 0;
     }
     .activity{
@@ -178,9 +182,9 @@
     }
     /* 底部 */
     .activity .thumbnail{
-        line-height: 0.65rem;
-        height: 0.65rem;
-        width: 0.65rem;
+        line-height: 0.88rem;
+        height: 0.88rem;
+        width: 0.88rem;
         text-align: center;
         border-radius: 50%;
         color: #ffffff;
@@ -196,16 +200,16 @@
     }
     
     .activity .bui-btn .icon{
-        font-size: 0.4rem;
+        font-size: 0.54rem;
         margin: 0;
     }
     .activity li .span1 h3{
         color: #111;
-        font-size: 0.23rem;
+        font-size: 0.32rem;
         margin-bottom: .15rem;
     }
     .activity li .span1 .item-text{
-        font-size: 0.2rem;
+        font-size: 0.24rem;
         color: #999999;
     }
 </style>

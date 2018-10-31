@@ -24,16 +24,15 @@
         border: 0;
     }
     .slide-nav .icons-round {
-        width: 0.7rem;
-        height: 0.7rem;
-        line-height: 0.7rem;
+        width: 0.88rem;
+        height: 0.88rem;
+        line-height: 0.88rem;
         text-align: center;
-        /*background: #01a5e4;*/
-        border-radius : .15rem;
-        margin: 0.15rem auto;
+        border-radius : .2rem;
+        margin: 0.2rem auto;
     }
     .slide-nav .icons-round i{
-        font-size: 0.4rem;
+        font-size: 0.54rem;
         color: #fff;
         margin: 0;
     }
@@ -44,16 +43,7 @@
         text-align: center;
         background: #fff;
         width: 100%;
-        text-align: center;
-        height: 0.4rem;
-    }
-    .bui-slide .bui-slide-head ul li{
-        float: none;
-        display: inline-block;
-        background: #0072c5;
-        width: 0.15rem;
-        height: 0.15rem;
-        margin-bottom: 0;
+        bottom: .1rem;
     }
     /* 顶部滚动按钮 */
     .index-nav{
@@ -105,14 +95,16 @@
     }
     .slide-focus .bui-slide-head {
         height: 0.2rem;
-        top: -0.45rem;
-        left: 2rem;
+
+        top: -0.7rem;
+        bottom: auto;
+        text-align: right;
     }
 
     .index-menu {
         background: #fff;
         border-top: 1px solid #eee;
-        font-size:.24rem;
+        font-size:.32rem;
     }
     .index-menu .span6 {
         padding-top: .25rem;
@@ -122,14 +114,14 @@
     }
     .index-menu .ring {
         border: 2px solid #4ad1dd;
-        width: .6rem;
-        height: .6rem;
+        width: .72rem;
+        height: .72rem;
         line-height: .54rem;
-        margin-left: .4rem;
-        margin-right: .15rem;
+        margin-left: .2rem;
+        margin-right: .2rem;
     }
     .index-menu .ring .icon{
-        font-size: .32rem;
+        font-size: .4rem;
         color: #4ad1dd;
     }
     .index-menu .ring02 {
@@ -155,9 +147,6 @@
     .footer-nav {
         background :#fff;
     }
-    .footer-nav .bui-btn .icon {
-        height: 0.42rem;
-    }
     .footer-nav .bui-btn{
         background-color: transparent;
     }
@@ -165,10 +154,10 @@
         color: #ffffff;
         border-radius: 50%;
         background-color: #0aa9e3;
-        height: 0.625rem;
-        width: 0.625rem;
-        line-height: 0.625rem;
-        font-size: 0.55rem;
+        height: 0.9rem;
+        width: 0.9rem;
+        line-height: 0.9rem;
+        font-size: 0.64rem;
     }
 
 </style>
@@ -193,14 +182,14 @@
         // 菜单初始化
         var uiSlideNav = bui.slide({
             id:"#slide",
-            height:310,
+            height:400,
             zoom: true
         });
 
         // 焦点图初始化
         var uiSlideFocus = bui.slide({
             id:"#slide1",
-            height:180,
+            height:250,
             zoom: true,
             autoplay:true
         });
@@ -334,8 +323,7 @@
             </div>
             <div class="bui-slide-head">
                 <ul >
-                    <li></li>
-                    <li></li>
+                    <li></li><li></li>
                 </ul>
             </div>
         </div>
@@ -349,20 +337,16 @@
                         <ul>
                             <li>
                                 <img src="images/index2-img.png" alt="">
-                            </li>
-                            <li>
+                            </li><li>
                                 <img src="images/index2-img.png" alt="">     
-                            </li>
-                            <li>
+                            </li><li>
                                 <img src="images/index2-img.png" alt="">
                             </li>
                         </ul>
                     </div>
                     <div class="bui-slide-head">
                         <ul >
-                            <li></li>
-                            <li></li>
-                            <li></li>
+                            <li></li><li></li><li></li>
                         </ul>
                     </div>
                 </div>

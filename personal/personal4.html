@@ -7,9 +7,6 @@
           content="width=device-width,initial-scale=1,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no"/>
     <title>个人中心</title>
     <link rel="stylesheet" href="../css/bui.css"/>
-    <script src="../js/zepto.js"></script>
-    <script src="../js/plugins/fastclick.js"></script>
-    <script src="../js/bui.js"></script>
     <style>
         .wrap-user-header{
             background-image:linear-gradient(to right ,#922e63,#731852,#6c2474,#29104a);
@@ -22,9 +19,7 @@
             border-top:none;
         }
         .user-pic .user-btn{
-            padding-left:.3rem;
-            padding-top:.25rem;
-            padding-bottom:.25rem;
+            padding:.3rem;
             border-bottom:none;
             background-color: transparent;
         }
@@ -43,7 +38,6 @@
         .user-pic .item-title{
             padding-top:.1rem;
             color:#fff;
-            font-size:.26rem;
             margin-bottom: .15rem;
         }
         .user-pic .user-btn .item-text{
@@ -73,13 +67,14 @@
             padding-bottom:.1rem;
             border:none;
             color:#fff;
-            font-size:.18rem;
+            font-size:.2rem;
             background-color:transparent;
             border-right:1px solid #7c1852;
         }
         .user-nav .bui-btn span {
             display: block;
             margin-bottom: .1rem;
+            font-size:.4rem;
         }
         .user-nav .bui-btn:last-child{
             border-right:none;
@@ -95,7 +90,7 @@
             color: #999;
         }
         .panel-usercenter .bui-panel-head > i{
-            font-size: .28rem;
+            font-size: .4rem;
             margin-right: .1rem;
         }
         .panel-usercenter .icon-order{
@@ -112,7 +107,6 @@
         }
         .nav-list .bui-btn i{
             margin-bottom: .1rem;
-            font-size: .32rem;
         }
         .nav-list .bui-btn span{
             margin-bottom: .1rem;
@@ -125,15 +119,12 @@
             color: #999;
         }
         .menu-list .bui-btn {
-            padding-left: .15rem;
-            padding-top: .22rem;
-            padding-bottom: .22rem;
             color: #333;
         }
         .menu-list .icon-service,
         .menu-list .icon-member,
         .menu-list .icon-guess {
-            font-size: .32rem;
+            font-size: .4rem;
             margin-right: .15rem;
         }
         .menu-list .icon-service {
@@ -156,7 +147,6 @@
         }
         .footer-nav .bui-btn i{
             color: #fff;
-            font-size: .4rem;
             margin-bottom: .05rem;
         }
         .footer-nav .active {
@@ -167,6 +157,9 @@
         }
     </style>
 
+    <script src="../js/zepto.js"></script>
+    <script src="../js/plugins/fastclick.js"></script>
+    <script src="../js/bui.js"></script>
     <script>
 
         var pageview = {};
