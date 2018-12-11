@@ -170,6 +170,19 @@
             opt.callback && opt.callback.call(this);
         })
     }
+
+    // 检查手机号
+    function checkPhone(val) {
+        var myreg = /^(((11[0-9]{1})|(12[0-9]{1})|(13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[0-9]{1})|(18[0-9]{1})|(19[0-9]{1}))+\d{8})$/; 
+        if(myreg.test(val)) 
+        { 
+            return true; 
+        }else{
+            bui.hint('请输入有效的手机号码！'); 
+
+            return false;
+        }
+    }
 </script>
 </head>
 <body>
